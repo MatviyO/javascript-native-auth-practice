@@ -9,8 +9,23 @@ export class Question {
         })
             .then(response => response.json())
             .then(response => {
-                console.log(response)
+                question.id = response.name
+                return question
             })
+            .then(addToLocalStorage)
+            .then(Question.renderList)
 
     }
+    static renderList() {
+        const questions = getQuestionFromLocalStorage()
+    }
+}
+function addToLocalStorage(question) {
+    const all = getQuestionFromLocalStorage()
+    all.push(question)
+    
+    localStorage.setItem('questions', JSON.stringify(all))
+}
+function getQuestionFromLocalStorage() {
+ return JSON.parse(localStorage.getItem('questions') || '[]')
 }
