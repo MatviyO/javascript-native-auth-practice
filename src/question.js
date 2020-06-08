@@ -17,11 +17,24 @@ export class Question {
 
     }
     static fetchGet(token) {
+        if(!token) {
+            return Promise.resolve('<p class="error"> token not found</p>')
+        }
         return fetch(`https://jsnative-question.firebaseio.com/questions.json?auth=${token}`)
             .then(response => response.json())
-            .then(questions => {
-                console.log('questions', questions)
+            .then(response => {
+                if (response && response.error) {
+                    return `<p class="error"> token not found , ${response.error}</p>`
+                }
+                return response ? Object.keys(response).map(key => ({
+                    ...response[key],
+                    id: key
+                })) : []
             })
+    }
+    static listToHtml(questions) {
+
+        return questions.length ? `<ol>${questions.map(q => `<li>${q.text}</li>`).join('')} </ol>` : '<p>Questions null</p>'
     }
 
     static renderList() {
@@ -47,10 +60,10 @@ function getQuestionFromLocalStorage() {
 
 function toCard(question) {
     return `
-  <div class="mui--text-black-54">{new Date(question.date).toLocaleDateString()}
-  {new Date(question.date).toLocaleTimeString()}
+  <div class="mui--text-black-54">${new Date(question.date).toLocaleDateString()}
+  ${new Date(question.date).toLocaleTimeString()}
   </div>
-            <div>{question.text}</div>
+            <div>${question.text}</div>
             <br>
  `
 }
