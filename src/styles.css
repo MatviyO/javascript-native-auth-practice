@@ -47,3 +47,21 @@ button {
         margin-left: 180px;
     }
 }
+.floating-btn {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+}
+.modal {
+    max-width: 600px;
+    max-height: 600px;
+    margin: 100px auto;
+    overflow-y: auto;
+    background: white;
+}
+.modal > h1 {
+    text-align: center;
+}
+.modal .modal-content {
+    padding: 1rem;
+}

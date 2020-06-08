@@ -16,6 +16,13 @@ export class Question {
             .then(Question.renderList)
 
     }
+    static fetchGet(token) {
+        return fetch(`https://jsnative-question.firebaseio.com/questions.json?auth=${token}`)
+            .then(response => response.json())
+            .then(questions => {
+                console.log('questions', questions)
+            })
+    }
 
     static renderList() {
         const questions = getQuestionFromLocalStorage()
